@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>AirConsole Controller - airconsole.com</title>
+  <link rel="stylesheet" type="text/css" href="styles/shared.css">
+  <link rel="stylesheet" type="text/css" href="styles/controller.css">
+</head>
+<body ng-app="airApp" ng-controller="MainCtrl" ng-init="init()">
+
+  <div class="total_height" ng-view></div>
+
+  <!--
+    Include the AirConsole API
+  -->
+  <script type="text/javascript" src="//www.airconsole.com/api/airconsole-latest.js"></script>
+  <script type="text/javascript" src="js/build/controller_1.0.0.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<div ng-init="init()">
+  LOBBY
+  <ul>
+    <li ng-repeat="item in items track by $index" ng-class="{ active: isSelectedItem($index) }">
+      {{ item.name }}
+    </li>
+  </ul>
+</div>
