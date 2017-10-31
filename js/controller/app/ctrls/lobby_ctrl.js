@@ -6,25 +6,12 @@ AirApp.controllers.controller('LobbyCtrl',
 
   $scope.items = DeviceSelectService.getList();
 
-  $scope.isSelectedItem = function(index) {
-    return DeviceSelectService.isSelectedItem(index);
-  };
-
-  $scope.prevItem = function() {
-    DeviceSelectService.selectPrev();
-  };
-
-  $scope.nextItem = function() {
-    DeviceSelectService.selectNext();
-  };
-
-
   $scope.nextAction = function() {
     ViewService.ctrl.go(Shared.View.Ingame, true);
   };
 
   $scope.init = function() {
-
+    $scope.items = DeviceSelectService.getList();
   };
 
   $scope.$on("$destroy", function() {

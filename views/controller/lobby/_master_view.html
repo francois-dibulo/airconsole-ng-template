@@ -1,17 +1,6 @@
 MASTER LOBBY
 
-<ul>
-  <li ng-repeat="item in items track by $index" ng-class="{ active: isSelectedItem($index) }">
-    {{ item.name }}
-  </li>
-</ul>
-
-<button ng-click="prevItem()">
-  Prev
-</button>
-<button ng-click="nextItem()">
-  Next
-</button>
+<select-item items="items"></select-item>
 
 <div class="bottom_buttons">
   <div nd-touch="nextAction()"

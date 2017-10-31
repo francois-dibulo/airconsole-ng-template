@@ -12,6 +12,7 @@ AirApp.services.factory('DeviceSelectService', ['$http', '$q', 'SelectService',
 
   service.init = function() {
     this.init_.apply(this);
+    this.addList(this.KEY, this.list, 0);
   };
 
   return service;
