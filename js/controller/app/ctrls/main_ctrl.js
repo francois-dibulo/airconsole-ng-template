@@ -94,8 +94,10 @@ AirApp.controllers.controller('MainCtrl',
           }
         }
       };
-      DeviceSelectService.init();
       SoundService.load(Ctrl.sounds);
+      //
+      DeviceSelectService.init();
+      //
       registerEvents();
     };
 

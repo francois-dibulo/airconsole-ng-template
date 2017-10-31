@@ -28,6 +28,10 @@ var Shared = {
 */
 var AC =  {};
 
+AC.List = {
+  Mode: "mode"
+};
+
 AC.State = {
   Idle: 'idle',
   Ingame: 'ingame'

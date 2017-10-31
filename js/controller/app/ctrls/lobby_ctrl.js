@@ -4,27 +4,18 @@ AirApp.controllers.controller('LobbyCtrl',
 
   var evts = {};
 
-  $scope.items = DeviceSelectService.getList();
-
-  $scope.isSelectedItem = function(index) {
-    return DeviceSelectService.isSelectedItem(index);
-  };
-
-  $scope.prevItem = function() {
-    DeviceSelectService.selectPrev();
-  };
-
-  $scope.nextItem = function() {
-    DeviceSelectService.selectNext();
-  };
-
+  $scope.items = [];
 
   $scope.nextAction = function() {
     ViewService.ctrl.go(Shared.View.Ingame, true);
   };
 
-  $scope.init = function() {
+  $scope.hasSelectedValue = function() {
+    return DeviceSelectService.hasSelectedValue(AC.List.Mode);
+  };
 
+  $scope.init = function() {
+    $scope.items = DeviceSelectService.getList(AC.List.Mode).values;
   };
 
   $scope.$on("$destroy", function() {

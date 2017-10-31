@@ -2,7 +2,7 @@ AirApp.services.factory('DeviceSelectService', ['$http', '$q', 'SelectService',
     function ($http, $q, SelectService) {
 
   var service = angular.merge({}, SelectService);
-  service.KEY = "device_select";
+  service.KEY = AC.List.Mode;
 
   service.list = [
     { name: "A" },
@@ -12,6 +12,7 @@ AirApp.services.factory('DeviceSelectService', ['$http', '$q', 'SelectService',
 
   service.init = function() {
     this.init_.apply(this);
+    this.addList(this.KEY, this.list , [0]);
   };
 
   return service;

@@ -5,13 +5,13 @@ AirApp.controllers.controller('LobbyCtrl',
   $scope.items = [];
 
   $scope.isSelectedItem = function(index) {
-    return DeviceSelectService.isSelectedItem(index);
+    return DeviceSelectService.isSelectedValue(AC.List.Mode, index);
   };
 
   $scope.init = function() {
-    $scope.items = DeviceSelectService.getList();
+    $scope.items = DeviceSelectService.getList(AC.List.Mode).values;
 
-    $scope.airconsole.on(DeviceSelectService.Event.OnIndexChanged, function(device_id, index) {
+    $scope.airconsole.on(DeviceSelectService.Event.OnValueChanged, function(device_id, index) {
       $scope.update();
     });
   };

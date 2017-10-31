@@ -1,0 +1,17 @@
+<ul>
+  <li ng-repeat="item in items track by $index"
+      ng-class="{ active: isSelectedItem($index) }"
+      nd-touch="selectIndex($index)">
+    {{ item.name }}
+  </li>
+</ul>
+
+<button ng-click="prevItem()">
+  Prev
+</button>
+
+<button ng-click="nextItem()">
+  Next
+</button>
+
+<hr>
