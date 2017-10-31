@@ -1049,21 +1049,12 @@ window.onload = function() {
 ;AirApp.services.factory('SelectService', ['AirConsoleService',
     function (AirConsoleService) {
 
-  var Track = {
-    Screen: "screen",
-    Ctrl: "ctrl"
-  };
-
   var service = {
     KEY: "select_key",
-    list: [],
-    track_by: "screen",
-    selections: {},
     Event: {
       OnValueChanged: "select.value_changed"
     },
     airconsole: null,
-    track_map: {},
     lists: {}
   };
 
@@ -1079,7 +1070,7 @@ window.onload = function() {
     key = key || this.KEY;
     var device_id = this.airconsole.getDeviceId();
     if (this.lists[device_id] && this.lists[device_id][key] && device_id !== undefined) {
-      return this.lists[device_id][key].values;
+      return this.lists[device_id][key];
     }
   };
 
@@ -1414,14 +1405,14 @@ function parseQuery(qstr) {
   ['$injector', '$scope', 'SoundService', 'PlayerService', 'AirConsoleService', 'DeviceSelectService',
   function ($injector, $scope, SoundService, PlayerService, AirConsoleService, DeviceSelectService) {
 
-  $scope.items = DeviceSelectService.getList();
+  $scope.items = [];
 
   $scope.isSelectedItem = function(index) {
     return DeviceSelectService.isSelectedValue(DeviceSelectService.KEY, index);
   };
 
   $scope.init = function() {
-    $scope.items = DeviceSelectService.getList();
+    $scope.items = DeviceSelectService.getList().values;
 
     $scope.airconsole.on(DeviceSelectService.Event.OnValueChanged, function(device_id, index) {
       $scope.update();

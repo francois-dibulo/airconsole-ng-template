@@ -4,14 +4,14 @@ AirApp.controllers.controller('LobbyCtrl',
 
   var evts = {};
 
-  $scope.items = DeviceSelectService.getList();
+  $scope.items = [];
 
   $scope.nextAction = function() {
     ViewService.ctrl.go(Shared.View.Ingame, true);
   };
 
   $scope.init = function() {
-    $scope.items = DeviceSelectService.getList();
+    $scope.items = DeviceSelectService.getList().values;
   };
 
   $scope.$on("$destroy", function() {

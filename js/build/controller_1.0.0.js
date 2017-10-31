@@ -1052,21 +1052,12 @@ AirApp.app.config(['$routeProvider',
 ;AirApp.services.factory('SelectService', ['AirConsoleService',
     function (AirConsoleService) {
 
-  var Track = {
-    Screen: "screen",
-    Ctrl: "ctrl"
-  };
-
   var service = {
     KEY: "select_key",
-    list: [],
-    track_by: "screen",
-    selections: {},
     Event: {
       OnValueChanged: "select.value_changed"
     },
     airconsole: null,
-    track_map: {},
     lists: {}
   };
 
@@ -1082,7 +1073,7 @@ AirApp.app.config(['$routeProvider',
     key = key || this.KEY;
     var device_id = this.airconsole.getDeviceId();
     if (this.lists[device_id] && this.lists[device_id][key] && device_id !== undefined) {
-      return this.lists[device_id][key].values;
+      return this.lists[device_id][key];
     }
   };
 
@@ -1431,14 +1422,14 @@ function parseQuery(qstr) {
 
   var evts = {};
 
-  $scope.items = DeviceSelectService.getList();
+  $scope.items = [];
 
   $scope.nextAction = function() {
     ViewService.ctrl.go(Shared.View.Ingame, true);
   };
 
   $scope.init = function() {
-    $scope.items = DeviceSelectService.getList();
+    $scope.items = DeviceSelectService.getList().values;
   };
 
   $scope.$on("$destroy", function() {
@@ -1624,7 +1615,7 @@ AirApp.directives.directive('ndTouchEnd', [function() {
         if (prev < 0) {
           prev = $scope.list.length - 1;
         }
-        $scope.setIndex(prev);
+        $scope.selectIndex(prev);
       };
 
       $scope.nextItem = function() {
@@ -1632,10 +1623,10 @@ AirApp.directives.directive('ndTouchEnd', [function() {
         if (next > $scope.list.length - 1) {
           next = 0;
         }
-        $scope.setIndex(next);
+        $scope.selectIndex(next);
       };
 
-      $scope.setIndex = function(index) {
+      $scope.selectIndex = function(index) {
         $scope.current_index = index;
         DeviceSelectService.selectScreenItem(key, $scope.current_index);
       };

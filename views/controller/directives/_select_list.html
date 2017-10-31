@@ -1,7 +1,7 @@
 <ul>
   <li ng-repeat="item in items track by $index"
       ng-class="{ active: isSelectedItem($index) }"
-      nd-touch="setIndex($index)">
+      nd-touch="selectIndex($index)">
     {{ item.name }}
   </li>
 </ul>

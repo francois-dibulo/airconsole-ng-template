@@ -23,7 +23,7 @@ AirApp.directives.directive("selectItem", ['DeviceSelectService',
         if (prev < 0) {
           prev = $scope.list.length - 1;
         }
-        $scope.setIndex(prev);
+        $scope.selectIndex(prev);
       };
 
       $scope.nextItem = function() {
@@ -31,10 +31,10 @@ AirApp.directives.directive("selectItem", ['DeviceSelectService',
         if (next > $scope.list.length - 1) {
           next = 0;
         }
-        $scope.setIndex(next);
+        $scope.selectIndex(next);
       };
 
-      $scope.setIndex = function(index) {
+      $scope.selectIndex = function(index) {
         $scope.current_index = index;
         DeviceSelectService.selectScreenItem(key, $scope.current_index);
       };

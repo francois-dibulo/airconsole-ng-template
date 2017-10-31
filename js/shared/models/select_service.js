@@ -1,21 +1,12 @@
 AirApp.services.factory('SelectService', ['AirConsoleService',
     function (AirConsoleService) {
 
-  var Track = {
-    Screen: "screen",
-    Ctrl: "ctrl"
-  };
-
   var service = {
     KEY: "select_key",
-    list: [],
-    track_by: "screen",
-    selections: {},
     Event: {
       OnValueChanged: "select.value_changed"
     },
     airconsole: null,
-    track_map: {},
     lists: {}
   };
 
@@ -31,7 +22,7 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
     key = key || this.KEY;
     var device_id = this.airconsole.getDeviceId();
     if (this.lists[device_id] && this.lists[device_id][key] && device_id !== undefined) {
-      return this.lists[device_id][key].values;
+      return this.lists[device_id][key];
     }
   };
 
