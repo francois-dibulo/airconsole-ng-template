@@ -1449,7 +1449,6 @@ function parseQuery(qstr) {
   };
 
   $scope.hasSelectedValue = function() {
-    console.log("Has selected", DeviceSelectService.hasSelectedValue(AC.List.Mode));
     return DeviceSelectService.hasSelectedValue(AC.List.Mode);
   };
 
