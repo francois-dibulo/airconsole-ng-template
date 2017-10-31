@@ -585,6 +585,10 @@ var Shared = {
 */
 var AC =  {};
 
+AC.List = {
+  Mode: "mode"
+};
+
 AC.State = {
   Idle: 'idle',
   Ingame: 'ingame'
@@ -844,7 +848,7 @@ window.onload = function() {
     function ($http, $q, SelectService) {
 
   var service = angular.merge({}, SelectService);
-  service.KEY = "device_select";
+  service.KEY = AC.List.Mode;
 
   service.list = [
     { name: "A" },
@@ -854,7 +858,7 @@ window.onload = function() {
 
   service.init = function() {
     this.init_.apply(this);
-    this.addList(this.KEY, this.list, 0);
+    this.addList(this.KEY, this.list , [0]);
   };
 
   return service;
@@ -1060,9 +1064,11 @@ window.onload = function() {
 
   service.addList = function(key, values, single_value) {
     var device_id = this.airconsole.getDeviceId();
+    var is_mulitple = single_value !== undefined;
     this.lists[device_id][key] = {
       values: values,
-      selected: single_value !== undefined ? single_value : []
+      selected: is_mulitple ? single_value : [],
+      multiple: is_mulitple
     };
   };
 
@@ -1085,6 +1091,20 @@ window.onload = function() {
       return selected.indexOf(value) > -1;
     } else {
       return selected === value;
+    }
+  };
+
+  service.hasSelectedValue = function(key) {
+    var device_id = this.airconsole.getDeviceId();
+    var device_lists = this.lists[device_id];
+    if (!device_lists) {
+      return false;
+    }
+    var list = device_lists[key];
+    if (list.multiple) {
+      return list.selected.length > 0;
+    } else {
+      return list.selected;
     }
   };
 
@@ -1408,11 +1428,11 @@ function parseQuery(qstr) {
   $scope.items = [];
 
   $scope.isSelectedItem = function(index) {
-    return DeviceSelectService.isSelectedValue(DeviceSelectService.KEY, index);
+    return DeviceSelectService.isSelectedValue(AC.List.Mode, index);
   };
 
   $scope.init = function() {
-    $scope.items = DeviceSelectService.getList().values;
+    $scope.items = DeviceSelectService.getList(AC.List.Mode).values;
 
     $scope.airconsole.on(DeviceSelectService.Event.OnValueChanged, function(device_id, index) {
       $scope.update();

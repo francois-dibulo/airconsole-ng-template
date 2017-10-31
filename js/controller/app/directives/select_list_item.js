@@ -6,16 +6,19 @@ AirApp.directives.directive("selectItem", ['DeviceSelectService',
     templateUrl: 'views/controller/directives/_select_list.html',
     scope: {
       // @ reads the attribute value, = provides two-way binding, & works with functions
-      items: '=items'
+      items: '=items',
+      key: '@'
     },
     // Embed a custom controller in the directive
     controller: function($scope) {
-      var key = DeviceSelectService.KEY;
+      var key = $scope.key;
       $scope.current_index = 0;
       $scope.list = $scope.items;
+      var list = DeviceSelectService.getList(key);
+      var is_multi = list.multiple;
 
-      $scope.isSelectedItem = function(index) {
-        return DeviceSelectService.isSelectedValue(key, index);
+      $scope.isSelectedItem = function(value) {
+        return DeviceSelectService.isSelectedValue(key, value);
       };
 
       $scope.prevItem = function() {

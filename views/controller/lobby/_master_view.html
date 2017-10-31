@@ -1,9 +1,10 @@
 MASTER LOBBY
 
-<select-item items="items"></select-item>
+<select-item items="items" key="mode"></select-item>
 
 <div class="bottom_buttons">
   <div nd-touch="nextAction()"
+       ng-show="hasSelectedValue()"
        class="button default">
     <span>Next</span>
   </div>

@@ -585,6 +585,10 @@ var Shared = {
 */
 var AC =  {};
 
+AC.List = {
+  Mode: "mode"
+};
+
 AC.State = {
   Idle: 'idle',
   Ingame: 'ingame'
@@ -847,7 +851,7 @@ AirApp.app.config(['$routeProvider',
     function ($http, $q, SelectService) {
 
   var service = angular.merge({}, SelectService);
-  service.KEY = "device_select";
+  service.KEY = AC.List.Mode;
 
   service.list = [
     { name: "A" },
@@ -857,7 +861,7 @@ AirApp.app.config(['$routeProvider',
 
   service.init = function() {
     this.init_.apply(this);
-    this.addList(this.KEY, this.list, 0);
+    this.addList(this.KEY, this.list , [0]);
   };
 
   return service;
@@ -1063,9 +1067,11 @@ AirApp.app.config(['$routeProvider',
 
   service.addList = function(key, values, single_value) {
     var device_id = this.airconsole.getDeviceId();
+    var is_mulitple = single_value !== undefined;
     this.lists[device_id][key] = {
       values: values,
-      selected: single_value !== undefined ? single_value : []
+      selected: is_mulitple ? single_value : [],
+      multiple: is_mulitple
     };
   };
 
@@ -1088,6 +1094,20 @@ AirApp.app.config(['$routeProvider',
       return selected.indexOf(value) > -1;
     } else {
       return selected === value;
+    }
+  };
+
+  service.hasSelectedValue = function(key) {
+    var device_id = this.airconsole.getDeviceId();
+    var device_lists = this.lists[device_id];
+    if (!device_lists) {
+      return false;
+    }
+    var list = device_lists[key];
+    if (list.multiple) {
+      return list.selected.length > 0;
+    } else {
+      return list.selected;
     }
   };
 
@@ -1428,8 +1448,13 @@ function parseQuery(qstr) {
     ViewService.ctrl.go(Shared.View.Ingame, true);
   };
 
+  $scope.hasSelectedValue = function() {
+    console.log("Has selected", DeviceSelectService.hasSelectedValue(AC.List.Mode));
+    return DeviceSelectService.hasSelectedValue(AC.List.Mode);
+  };
+
   $scope.init = function() {
-    $scope.items = DeviceSelectService.getList().values;
+    $scope.items = DeviceSelectService.getList(AC.List.Mode).values;
   };
 
   $scope.$on("$destroy", function() {
@@ -1535,8 +1560,10 @@ function parseQuery(qstr) {
           }
         }
       };
-      DeviceSelectService.init();
       SoundService.load(Ctrl.sounds);
+      //
+      DeviceSelectService.init();
+      //
       registerEvents();
     };
 
@@ -1598,16 +1625,19 @@ AirApp.directives.directive('ndTouchEnd', [function() {
     templateUrl: 'views/controller/directives/_select_list.html',
     scope: {
       // @ reads the attribute value, = provides two-way binding, & works with functions
-      items: '=items'
+      items: '=items',
+      key: '@'
     },
     // Embed a custom controller in the directive
     controller: function($scope) {
-      var key = DeviceSelectService.KEY;
+      var key = $scope.key;
       $scope.current_index = 0;
       $scope.list = $scope.items;
+      var list = DeviceSelectService.getList(key);
+      var is_multi = list.multiple;
 
-      $scope.isSelectedItem = function(index) {
-        return DeviceSelectService.isSelectedValue(key, index);
+      $scope.isSelectedItem = function(value) {
+        return DeviceSelectService.isSelectedValue(key, value);
       };
 
       $scope.prevItem = function() {

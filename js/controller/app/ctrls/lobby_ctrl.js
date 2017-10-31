@@ -10,8 +10,13 @@ AirApp.controllers.controller('LobbyCtrl',
     ViewService.ctrl.go(Shared.View.Ingame, true);
   };
 
+  $scope.hasSelectedValue = function() {
+    console.log("Has selected", DeviceSelectService.hasSelectedValue(AC.List.Mode));
+    return DeviceSelectService.hasSelectedValue(AC.List.Mode);
+  };
+
   $scope.init = function() {
-    $scope.items = DeviceSelectService.getList().values;
+    $scope.items = DeviceSelectService.getList(AC.List.Mode).values;
   };
 
   $scope.$on("$destroy", function() {

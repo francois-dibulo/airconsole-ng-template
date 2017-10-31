@@ -12,9 +12,11 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
 
   service.addList = function(key, values, single_value) {
     var device_id = this.airconsole.getDeviceId();
+    var is_mulitple = single_value !== undefined;
     this.lists[device_id][key] = {
       values: values,
-      selected: single_value !== undefined ? single_value : []
+      selected: is_mulitple ? single_value : [],
+      multiple: is_mulitple
     };
   };
 
@@ -37,6 +39,20 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
       return selected.indexOf(value) > -1;
     } else {
       return selected === value;
+    }
+  };
+
+  service.hasSelectedValue = function(key) {
+    var device_id = this.airconsole.getDeviceId();
+    var device_lists = this.lists[device_id];
+    if (!device_lists) {
+      return false;
+    }
+    var list = device_lists[key];
+    if (list.multiple) {
+      return list.selected.length > 0;
+    } else {
+      return list.selected;
     }
   };
 
