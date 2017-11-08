@@ -104,6 +104,12 @@ AirApp.services.factory('PlayerService', ['AirConsoleService', 'SoundService', f
         }
       };
 
+      service.loopPlayers = function(cb) {
+        for (var i = 0; i < this.players.length; i++) {
+          cb(this.players[i], i);
+        }
+      };
+
       service.getLastVisit = function() {
         var ts = null;
         for (var i = 0; i < this.players.length; i++) {

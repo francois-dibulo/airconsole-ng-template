@@ -105,7 +105,7 @@
   };
 
 })();
-;/*
+/*
  AngularJS v1.6.6
  (c) 2010-2017 Google, Inc. http://angularjs.org
  License: MIT
@@ -440,7 +440,7 @@ link:function(a,b,d,c){if(c){var e=-1;d.$observe("maxlength",function(a){a=Z(a);
 STANDALONEMONTH:"January February March April May June July August September October November December".split(" "),WEEKENDRANGE:[5,6],fullDate:"EEEE, MMMM d, y",longDate:"MMMM d, y",medium:"MMM d, y h:mm:ss a",mediumDate:"MMM d, y",mediumTime:"h:mm:ss a","short":"M/d/yy h:mm a",shortDate:"M/d/yy",shortTime:"h:mm a"},NUMBER_FORMATS:{CURRENCY_SYM:"$",DECIMAL_SEP:".",GROUP_SEP:",",PATTERNS:[{gSize:3,lgSize:3,maxFrac:3,minFrac:0,minInt:1,negPre:"-",negSuf:"",posPre:"",posSuf:""},{gSize:3,lgSize:3,maxFrac:2,
 minFrac:2,minInt:1,negPre:"-\u00a4",negSuf:"",posPre:"\u00a4",posSuf:""}]},id:"en-us",localeID:"en_US",pluralCat:function(a,c){var e=a|0,f=c;void 0===f&&(f=Math.min(b(a),3));Math.pow(10,f);return 1==e&&0==f?"one":"other"}})}]),B(function(){we(u.document,Uc)}))})(window);!window.angular.$$csp().noInlineStyle&&window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 //# sourceMappingURL=angular.min.js.map
-;/*
+/*
  AngularJS v1.5.0-rc.2
  (c) 2010-2016 Google, Inc. http://angularjs.org
  License: MIT
@@ -455,7 +455,7 @@ e,v,b)})}function n(){var a,b;d.forEach(g,function(f,g){var q;if(q=!b){var h=c.p
 g=f[1];c.push(b[g]);c.push(f[2]||"");delete b[g]}});return c.join("")}var x=!1,p,w,t={routes:g,reload:function(){x=!0;a.$evalAsync(function(){l();m()})},updateParams:function(a){if(this.current&&this.current.$$route)a=d.extend({},this.current.params,a),c.path(u(this.current.$$route.originalPath,a)),c.search(a);else throw B("norout");}};a.$on("$locationChangeStart",l);a.$on("$locationChangeSuccess",m);return t}]});var B=d.$$minErr("ngRoute");r.provider("$routeParams",function(){this.$get=function(){return{}}});
 r.directive("ngView",w);r.directive("ngView",A);w.$inject=["$route","$anchorScroll","$animate"];A.$inject=["$compile","$controller","$route"]})(window,window.angular);
 //# sourceMappingURL=angular-route.min.js.map
-;(function(h,g){function K(sb,K){function ha(b){return c.preferFlash&&H&&!c.ignoreFlash&&c.flash[b]!==g&&c.flash[b]}function r(b){return function(d){var e=this._s;e&&e._a?d=b.call(this,d):(e&&e.id?c._wD(e.id+": Ignoring "+d.type):c._wD("HTML5::Ignoring "+d.type),d=null);return d}}this.setupOptions={url:sb||null,flashVersion:8,debugMode:!0,debugFlash:!1,useConsole:!0,consoleOnly:!0,waitForWindowLoad:!1,bgColor:"#ffffff",useHighPerformance:!1,flashPollingInterval:null,html5PollingInterval:null,flashLoadTimeout:1E3,
+(function(h,g){function K(sb,K){function ha(b){return c.preferFlash&&H&&!c.ignoreFlash&&c.flash[b]!==g&&c.flash[b]}function r(b){return function(d){var e=this._s;e&&e._a?d=b.call(this,d):(e&&e.id?c._wD(e.id+": Ignoring "+d.type):c._wD("HTML5::Ignoring "+d.type),d=null);return d}}this.setupOptions={url:sb||null,flashVersion:8,debugMode:!0,debugFlash:!1,useConsole:!0,consoleOnly:!0,waitForWindowLoad:!1,bgColor:"#ffffff",useHighPerformance:!1,flashPollingInterval:null,html5PollingInterval:null,flashLoadTimeout:1E3,
 wmode:null,allowScriptAccess:"always",useFlashBlock:!1,useHTML5Audio:!0,forceUseGlobalHTML5Audio:!1,ignoreMobileRestrictions:!1,html5Test:/^(probably|maybe)$/i,preferFlash:!1,noSWFCache:!1,idPrefix:"sound"};this.defaultOptions={autoLoad:!1,autoPlay:!1,from:null,loops:1,onid3:null,onload:null,whileloading:null,onplay:null,onpause:null,onresume:null,whileplaying:null,onposition:null,onstop:null,onfailure:null,onfinish:null,multiShot:!0,multiShotEvents:!1,position:null,pan:0,stream:!0,to:null,type:null,
 usePolicyFile:!1,volume:100};this.flash9Options={isMovieStar:null,usePeakData:!1,useWaveformData:!1,useEQData:!1,onbufferchange:null,ondataerror:null};this.movieStarOptions={bufferTime:3,serverURL:null,onconnect:null,duration:null};this.audioFormats={mp3:{type:['audio/mpeg; codecs="mp3"',"audio/mpeg","audio/mp3","audio/MPA","audio/mpa-robust"],required:!0},mp4:{related:["aac","m4a","m4b"],type:['audio/mp4; codecs="mp4a.40.2"',"audio/aac","audio/x-m4a","audio/MP4A-LATM","audio/mpeg4-generic"],required:!1},
 ogg:{type:["audio/ogg; codecs=vorbis"],required:!1},opus:{type:["audio/ogg; codecs=opus","audio/opus"],required:!1},wav:{type:['audio/wav; codecs="1"',"audio/wav","audio/wave","audio/x-wav"],required:!1}};this.movieID="sm2-container";this.id=K||"sm2movie";this.debugID="soundmanager-debug";this.debugURLParam=/([#?&])debug=1/i;this.versionNumber="V2.97a.20150601";this.altURL=this.movieURL=this.version=null;this.enabled=this.swfLoaded=!1;this.oMC=null;this.sounds={};this.soundIDs=[];this.didFlashBlock=
@@ -555,7 +555,7 @@ c.enabled=!0,Z()),!0;la();try{l._externalInterfaceTest(!1),ab(!0,c.flashPollingI
 (c.useHTML5Audio?". Trying HTML5-only mode.":", enabling HTML5."),1),c.setup({useHTML5Audio:!0,preferFlash:!1}));jb();!H&&u&&(M.push(z.needFlash),c.setup({flashLoadTimeout:1}));m.removeEventListener&&m.removeEventListener("DOMContentLoaded",Q,!1);la();return!0};La=function(){"complete"===m.readyState&&(Q(),m.detachEvent("onreadystatechange",La));return!0};Fa=function(){ja=!0;Q();x.remove(h,"load",Fa)};Na();x.add(h,"focus",ka);x.add(h,"load",T);x.add(h,"load",Fa);m.addEventListener?m.addEventListener("DOMContentLoaded",
 Q,!1):m.attachEvent?m.attachEvent("onreadystatechange",La):(D("onload",!1),U({type:"NO_DOM2_EVENTS",fatal:!0}))}if(!h||!h.document)throw Error("SoundManager requires a browser with window and document objects.");var W=null;h.SM2_DEFER!==g&&SM2_DEFER||(W=new K);"object"===typeof module&&module&&"object"===typeof module.exports?(module.exports.SoundManager=K,module.exports.soundManager=W):"function"===typeof define&&define.amd&&define(function(){return{constructor:K,getInstance:function(g){!h.soundManager&&
 g instanceof Function&&(g=g(K),g instanceof K&&(h.soundManager=g));return h.soundManager}}});h.SoundManager=K;h.soundManager=W})(window);
-;var Screen = {
+var Screen = {
   sounds: {
     'player_join': 'player_join.m4a',
   },
@@ -645,7 +645,7 @@ AirApp.controllers = angular.module(Config.dependencies.controllers, []);
 AirApp.services = angular.module(Config.dependencies.services, []);
 AirApp.directives = angular.module(Config.dependencies.directives, []);
 AirApp.filters = angular.module(Config.dependencies.filters, []);
-;var VIEW_PATH = "views/screen/";
+var VIEW_PATH = "views/screen/";
 AirApp.app = angular.module(Config.APP_NAME, Config.getDependencies());
 
 AirApp.app.config(['$routeProvider',
@@ -674,7 +674,16 @@ AirApp.app.config(['$routeProvider',
 window.onload = function() {
   AirApp.app.run(function($rootScope) {});
 }
-;AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundService) {
+AirApp.directives.directive('includeReplace', function () {
+  return {
+    require: 'ngInclude',
+    restrict: 'A', /* optional */
+    link: function (scope, el, attrs) {
+      el.replaceWith(el.children());
+    }
+  };
+});
+AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundService) {
   var airconsole = null;
   return {
     airconsole: airconsole,
@@ -844,7 +853,7 @@ window.onload = function() {
 
   };
 }]);
-;AirApp.services.factory('DeviceSelectService', ['$http', '$q', 'SelectService',
+AirApp.services.factory('DeviceSelectService', ['$http', '$q', 'SelectService',
     function ($http, $q, SelectService) {
 
   var service = angular.merge({}, SelectService);
@@ -863,7 +872,43 @@ window.onload = function() {
 
   return service;
 }]);
-;AirApp.services.factory('PlayerService', ['AirConsoleService', 'SoundService', function (AirConsoleService, SoundService) {
+AirApp.services.factory('HighScoreService', ['AirConsoleService',
+    function (AirConsoleService) {
+
+  var version = "1.0";
+  var airconsole = null;
+  var service = {
+    Event: {
+      OnHighScoresLoaded: 'hs.on_loaded'
+    },
+    highscores: {}
+  };
+
+  service.store = function(key, score, uid, data, label) {
+    console.info("Saving: ", key, version, score, uid, data, label);
+    airconsole.storeHighScore(key, version, score, uid, data, label);
+  };
+
+  service.load = function(key, uids, ranks, total, top) {
+    airconsole.requestHighScores(key, version, uids, ranks, total, top);
+  };
+
+  service.onHighScoresLoaded = function(high_scores) {
+    airconsole.dispatchEvent(AirConsole.SCREEN, {
+      event_name: service.Event.OnHighScoresLoaded,
+      params: high_scores
+    });
+  };
+
+  service.init = function() {
+    airconsole = AirConsoleService.instance();
+    airconsole.onHighScores = this.onHighScoresLoaded.bind(this);
+  };
+
+  return service;
+
+}]);
+AirApp.services.factory('PlayerService', ['AirConsoleService', 'SoundService', function (AirConsoleService, SoundService) {
   var service = {
     players: [],
     players_map: {},
@@ -969,6 +1014,12 @@ window.onload = function() {
         }
       };
 
+      service.loopPlayers = function(cb) {
+        for (var i = 0; i < this.players.length; i++) {
+          cb(this.players[i], i);
+        }
+      };
+
       service.getLastVisit = function() {
         var ts = null;
         for (var i = 0; i < this.players.length; i++) {
@@ -1050,7 +1101,7 @@ window.onload = function() {
 
   return service;
 }]);
-;AirApp.services.factory('SelectService', ['AirConsoleService',
+AirApp.services.factory('SelectService', ['AirConsoleService',
     function (AirConsoleService) {
 
   var service = {
@@ -1062,14 +1113,26 @@ window.onload = function() {
     lists: {}
   };
 
+  /**
+   * @param {String} key - List key
+   * @param {Array} values - List of values
+   * @param {Mixed} single_value - Default selected value (E.g. 0 or [0])
+   */
   service.addList = function(key, values, single_value) {
     var device_id = this.airconsole.getDeviceId();
-    var is_mulitple = single_value !== undefined;
-    this.lists[device_id][key] = {
+    var is_multiple = single_value === undefined || angular.isArray(single_value);
+    if (is_multiple) {
+      single_value = single_value || [];
+    } else {
+      single_value = single_value === undefined ? null : single_value;
+    }
+    var obj = {
       values: values,
-      selected: is_mulitple ? single_value : [],
-      multiple: is_mulitple
+      selected: single_value,
+      multiple: is_multiple,
+      default_value: single_value
     };
+    this.lists[device_id][key] = obj;
   };
 
   service.getList = function(key) {
@@ -1108,6 +1171,32 @@ window.onload = function() {
     }
   };
 
+  service.resetSelection = function(key) {
+    var list = this.getList(key);
+    if (list) {
+      list.selected = list.multiple ? [] : list.default_value;
+    }
+  }
+
+  service.getSelectedValues = function(key, device_id) {
+    device_id = device_id || this.airconsole.getDeviceId();
+    var device_lists = this.lists[device_id];
+    if (!device_lists) {
+      return null;
+    }
+    var list = device_lists[key];
+    if (!list.multiple) {
+      return list.values[list.selected];
+    } else {
+      var result = [];
+      for (var i = 0; i < list.selected.length; i++) {
+        var index = list.selected[i];
+        result.push(list.values[index]);
+      }
+      return result;
+    }
+  };
+
   service.onSelectionChanged = function(from_device_id, data) {
     var device_id = this.airconsole.getDeviceId();
     var key = data.key;
@@ -1130,11 +1219,7 @@ window.onload = function() {
         select_item.selected.splice(value_index, 1);
       }
     } else {
-      if (value === select_item.selected) {
-        select_item.selected = null;
-      } else {
-        select_item.selected = value;
-      }
+      select_item.selected = value;
     }
     // UPDATE
     if (target_device_id !== undefined) {
@@ -1159,7 +1244,7 @@ window.onload = function() {
 
   return service;
 }]);
-;AirApp.services.factory('SoundService', [function () {
+AirApp.services.factory('SoundService', [function () {
 
   var BASE_URL = 'assets/sounds/';
 
@@ -1223,7 +1308,7 @@ window.onload = function() {
   };
 
 }]);
-;AirApp.services.factory('TrackPropertyService', ['AirConsoleService',
+AirApp.services.factory('TrackPropertyService', ['AirConsoleService',
     function (AirConsoleService) {
 
   var airconsole = null;
@@ -1258,7 +1343,7 @@ window.onload = function() {
   return service;
 
 }]);
-;AirApp.services.factory('ViewService', ['AirConsoleService', function (AirConsoleService) {
+AirApp.services.factory('ViewService', ['AirConsoleService', function (AirConsoleService) {
   var service = {
     ctrl: {},
     screen: {},
@@ -1284,7 +1369,7 @@ window.onload = function() {
 
     airconsole = AirConsoleService.instance();
     airconsole.on(service.Event.OnPathChange, function(from, params) {
-      service.onPath(params.view, params);
+      service.onPath(params.view, params.params);
     });
 
     service.deviceGo = function(device_id, path, params) {
@@ -1293,6 +1378,19 @@ window.onload = function() {
         params: params
       });
     };
+
+    service.masterGo = function(path, params) {
+      var master_id = airconsole.getMasterControllerDeviceId();
+      this.deviceGo(master_id, path, params);
+    };
+
+    service.screen.ctrlsGo = function(path, params) {
+      airconsole.broadcastEvent(service.Event.OnPathChange, {
+        view: path,
+        params: params
+      });
+    };
+
 
     if (AirConsoleService.isScreen()) {
 
@@ -1346,7 +1444,7 @@ window.onload = function() {
 
   return service;
 }]);
-;/**
+/**
  * Randomize array element order in-place.
  * Using Durstenfeld shuffle algorithm.
  */
@@ -1392,7 +1490,7 @@ function parseQuery(qstr) {
   }
   return query;
 }
-;AirApp.controllers.controller('GameCtrl',
+AirApp.controllers.controller('GameCtrl',
   ['$scope', 'AirConsoleService',
   function ($scope, AirConsoleService) {
 
@@ -1402,7 +1500,7 @@ function parseQuery(qstr) {
   };
 
 }]);
-;AirApp.controllers.controller('GameEndCtrl',
+AirApp.controllers.controller('GameEndCtrl',
     ['$injector', '$scope', '$routeParams', 'AirConsoleService', 'SoundService', 'PlayerService', 'ViewService',
     function ($injector, $scope, $routeParams, AirConsoleService, SoundService, PlayerService, ViewService) {
 
@@ -1421,7 +1519,7 @@ function parseQuery(qstr) {
 
 }]);
 
-;AirApp.controllers.controller('LobbyCtrl',
+AirApp.controllers.controller('LobbyCtrl',
   ['$injector', '$scope', 'SoundService', 'PlayerService', 'AirConsoleService', 'DeviceSelectService',
   function ($injector, $scope, SoundService, PlayerService, AirConsoleService, DeviceSelectService) {
 
@@ -1444,7 +1542,7 @@ function parseQuery(qstr) {
   });
 
 }]);
-;AirApp.controllers.controller('MainCtrl',
+AirApp.controllers.controller('MainCtrl',
     ['$injector', '$scope', '$location', '$timeout', '$routeParams', 'AirConsoleService', 'SoundService', 'PlayerService', 'ViewService', 'DeviceSelectService',
     function ($injector, $scope, $location, $timeout, $routeParams, AirConsoleService, SoundService, PlayerService, ViewService, DeviceSelectService) {
 
@@ -1510,7 +1608,12 @@ function parseQuery(qstr) {
       ViewService.init();
       ViewService.onPath = function(path, params, from_same_device) {
         if ($location.path() !== path) {
-          $location.path('/' + path);
+          var full_path = '/' + path;
+          if (params) {
+            $location.path(full_path).search(params);
+          } else {
+            $location.path(full_path);
+          }
           if (!from_same_device) {
             $scope.$apply();
           }
@@ -1532,7 +1635,7 @@ function parseQuery(qstr) {
   };
 
 }]);
-; AirApp.services.factory('GameService', ['$http', '$q', 'PlayerService', 'AirConsoleService',
+ AirApp.services.factory('GameService', ['$http', '$q', 'PlayerService', 'AirConsoleService',
     function ($http, $q, PlayerService, AirConsoleService) {
 
   var service = {};

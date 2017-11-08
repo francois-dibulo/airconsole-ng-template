@@ -7,7 +7,7 @@ AirApp.controllers.controller('SplashCtrl',
   $scope.init = function() {
     $timeout(function() {
       ViewService.ctrl.go(Shared.View.Lobby);
-    }, 1000);
+    }, 3000);
   };
 
   $scope.$on("$destroy", function() {

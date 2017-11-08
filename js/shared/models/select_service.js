@@ -10,14 +10,26 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
     lists: {}
   };
 
+  /**
+   * @param {String} key - List key
+   * @param {Array} values - List of values
+   * @param {Mixed} single_value - Default selected value (E.g. 0 or [0])
+   */
   service.addList = function(key, values, single_value) {
     var device_id = this.airconsole.getDeviceId();
-    var is_mulitple = single_value !== undefined;
-    this.lists[device_id][key] = {
+    var is_multiple = single_value === undefined || angular.isArray(single_value);
+    if (is_multiple) {
+      single_value = single_value || [];
+    } else {
+      single_value = single_value === undefined ? null : single_value;
+    }
+    var obj = {
       values: values,
-      selected: is_mulitple ? single_value : [],
-      multiple: is_mulitple
+      selected: single_value,
+      multiple: is_multiple,
+      default_value: single_value
     };
+    this.lists[device_id][key] = obj;
   };
 
   service.getList = function(key) {
@@ -56,6 +68,32 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
     }
   };
 
+  service.resetSelection = function(key) {
+    var list = this.getList(key);
+    if (list) {
+      list.selected = list.multiple ? [] : list.default_value;
+    }
+  }
+
+  service.getSelectedValues = function(key, device_id) {
+    device_id = device_id || this.airconsole.getDeviceId();
+    var device_lists = this.lists[device_id];
+    if (!device_lists) {
+      return null;
+    }
+    var list = device_lists[key];
+    if (!list.multiple) {
+      return list.values[list.selected];
+    } else {
+      var result = [];
+      for (var i = 0; i < list.selected.length; i++) {
+        var index = list.selected[i];
+        result.push(list.values[index]);
+      }
+      return result;
+    }
+  };
+
   service.onSelectionChanged = function(from_device_id, data) {
     var device_id = this.airconsole.getDeviceId();
     var key = data.key;
@@ -78,11 +116,7 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
         select_item.selected.splice(value_index, 1);
       }
     } else {
-      if (value === select_item.selected) {
-        select_item.selected = null;
-      } else {
-        select_item.selected = value;
-      }
+      select_item.selected = value;
     }
     // UPDATE
     if (target_device_id !== undefined) {

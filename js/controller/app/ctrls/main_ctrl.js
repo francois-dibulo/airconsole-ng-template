@@ -4,6 +4,7 @@ AirApp.controllers.controller('MainCtrl',
 
   $scope.airconsole = null;
   $scope.player = {
+    uid: null,
     is_developer: false,
     device_id: null,
     name: null,
@@ -31,6 +32,7 @@ AirApp.controllers.controller('MainCtrl',
     var is_dev = isDeveloperMode();
     var device_id = ac.getDeviceId();
     var data = AirConsoleService.getDeviceData(device_id);
+    $scope.player.uid = data.uid;
     $scope.player.is_developer = is_dev;
     $scope.player.device_id = data.device_id;
     $scope.player.name = data.name;
@@ -88,7 +90,12 @@ AirApp.controllers.controller('MainCtrl',
       ViewService.init();
       ViewService.onPath = function(path, params, from_same_device) {
         if ($location.path() !== path) {
-          $location.path('/' + path);
+          var full_path = '/' + path;
+          if (params) {
+            $location.path(full_path).search(params);
+          } else {
+            $location.path(full_path);
+          }
           if (!from_same_device) {
             $scope.$apply();
           }

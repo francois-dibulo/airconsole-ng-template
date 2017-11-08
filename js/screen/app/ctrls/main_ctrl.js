@@ -64,7 +64,12 @@ AirApp.controllers.controller('MainCtrl',
       ViewService.init();
       ViewService.onPath = function(path, params, from_same_device) {
         if ($location.path() !== path) {
-          $location.path('/' + path);
+          var full_path = '/' + path;
+          if (params) {
+            $location.path(full_path).search(params);
+          } else {
+            $location.path(full_path);
+          }
           if (!from_same_device) {
             $scope.$apply();
           }

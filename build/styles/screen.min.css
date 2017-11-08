@@ -60,8 +60,8 @@ html, body {
 
 .fadeIn {
   opacity: 0;
-  -webkit-animation: fadein 2s forwards;
-  animation: fadein 2s forwards;
+  -webkit-animation: fadein 2s;
+  animation: fadein 2s;
   animation-delay: 1s;
   -webkit-animation-delay: 1s;
 }
@@ -75,4 +75,10 @@ html, body {
 @-webkit-keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
+}
+/* ---------------------------------------------------------------------------------------
+  SCREEN CSS
+  ------------------------------------------------------------------------------------- */
+body {
+
 }

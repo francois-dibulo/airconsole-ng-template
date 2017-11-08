@@ -24,7 +24,7 @@ AirApp.services.factory('ViewService', ['AirConsoleService', function (AirConsol
 
     airconsole = AirConsoleService.instance();
     airconsole.on(service.Event.OnPathChange, function(from, params) {
-      service.onPath(params.view, params);
+      service.onPath(params.view, params.params);
     });
 
     service.deviceGo = function(device_id, path, params) {
@@ -33,6 +33,19 @@ AirApp.services.factory('ViewService', ['AirConsoleService', function (AirConsol
         params: params
       });
     };
+
+    service.masterGo = function(path, params) {
+      var master_id = airconsole.getMasterControllerDeviceId();
+      this.deviceGo(master_id, path, params);
+    };
+
+    service.screen.ctrlsGo = function(path, params) {
+      airconsole.broadcastEvent(service.Event.OnPathChange, {
+        view: path,
+        params: params
+      });
+    };
+
 
     if (AirConsoleService.isScreen()) {
 

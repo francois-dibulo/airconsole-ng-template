@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     concat: {
       options: {
-        separator: ';'
+        separator: ''
       },
       dist_screen: {
         src: [
@@ -15,7 +15,7 @@ module.exports = function(grunt) {
           'js/screen/app/**/*.js',
           '!js/controller'
         ],
-        dest: 'js/build/screen_<%= pkg.version %>.js'
+        dest: 'build/js/screen_<%= pkg.version %>.js'
       },
       dist_ctrl: {
         src: [
@@ -26,7 +26,21 @@ module.exports = function(grunt) {
           'js/controller/app/**/*.js',
           '!js/screen'
         ],
-        dest: 'js/build/controller_<%= pkg.version %>.js'
+        dest: 'build/js/controller_<%= pkg.version %>.js'
+      },
+      css_ctrl: {
+        src: [
+          'styles/shared.css',
+          'styles/controller.css'
+        ],
+        dest: 'build/styles/controller.min.css'
+      },
+      css_screen: {
+        src: [
+          'styles/shared.css',
+          'styles/screen.css'
+        ],
+        dest: 'build/styles/screen.min.css'
       }
     },
     uglify: {
@@ -36,12 +50,12 @@ module.exports = function(grunt) {
       build: {
         files: [
           {
-            src: 'js/build/screen_<%= pkg.version %>.js',
-            dest: 'js/build/screen_<%= pkg.version %>.min.js'
+            src: 'build/js/screen_<%= pkg.version %>.js',
+            dest: 'build/js/screen_<%= pkg.version %>.min.js'
           },
           {
-            src: 'js/build/controller_<%= pkg.version %>.js',
-            dest: 'js/build/controller_<%= pkg.version %>.min.js'
+            src: 'build/js/controller_<%= pkg.version %>.js',
+            dest: 'build/js/controller_<%= pkg.version %>.min.js'
           }
         ]
         // src: 'js/build/screen_<%= pkg.version %>.js',
