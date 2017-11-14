@@ -60,8 +60,8 @@ html, body {
 
 .fadeIn {
   opacity: 0;
-  -webkit-animation: fadein 2s;
-  animation: fadein 2s;
+  -webkit-animation: fadein 2s forwards;
+  animation: fadein 2s forwards;
   animation-delay: 1s;
   -webkit-animation-delay: 1s;
 }
