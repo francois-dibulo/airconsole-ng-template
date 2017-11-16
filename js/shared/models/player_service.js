@@ -48,6 +48,7 @@ AirApp.services.factory('PlayerService', ['AirConsoleService', 'SoundService', f
         var color = player_colors[device_id] || player_colors[0];
         var player = AirConsoleService.getDeviceData(device_id);
         player.color = color;
+        player.is_active = false;
         player.stats = {
           score: 0,
           // Map => uid: {total, correct}
@@ -93,8 +94,30 @@ AirApp.services.factory('PlayerService', ['AirConsoleService', 'SoundService', f
         return player;
       };
 
-      service.getPlayers = function() {
-        return this.players;
+      service.getPlayers = function(only_active) {
+        if (only_active) {
+          var active_players = [];
+          this.loopPlayers(function(player) {
+            if (player.is_active) {
+              active_players.push(player);
+            }
+          });
+          return active_players;
+        } else {
+          return this.players;
+        }
+      };
+
+      service.getPlayersLen = function(only_active) {
+        return this.getPlayers(only_active).length;
+      };
+
+      service.setCurrentPlayersActive = function(state) {
+        state = state || true;
+        this.loopPlayers(function(player) {
+          player.is_active = state;
+        });
+        this.updatePlayersMap();
       };
 
       service.saveLastVisit = function() {
@@ -104,9 +127,10 @@ AirApp.services.factory('PlayerService', ['AirConsoleService', 'SoundService', f
         }
       };
 
-      service.loopPlayers = function(cb) {
-        for (var i = 0; i < this.players.length; i++) {
-          cb(this.players[i], i);
+      service.loopPlayers = function(cb, only_active) {
+        var players = this.getPlayers(only_active);
+        for (var i = 0; i < players.length; i++) {
+          cb(players[i], i);
         }
       };
 
