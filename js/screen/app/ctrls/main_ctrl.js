@@ -83,6 +83,7 @@ AirApp.controllers.controller('MainCtrl',
 
       //
       ViewService.screen.go(Shared.View.Lobby, true);
+      $scope.update();
       $scope.updateCustomData();
     };
 

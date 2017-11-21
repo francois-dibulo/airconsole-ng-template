@@ -106,6 +106,7 @@ AirApp.controllers.controller('MainCtrl',
       DeviceSelectService.init();
       //
       registerEvents();
+      $scope.update();
     };
 
     AirConsoleService.createInstance();
