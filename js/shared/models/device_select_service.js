@@ -11,7 +11,7 @@ AirApp.services.factory('DeviceSelectService', ['SelectService',
   ];
 
   service.init = function() {
-    SelectService.addList(this.KEY, this.list, 0, AirConsole.SCREEN);
+    SelectService.addList(this.KEY, this.list, [0], AirConsole.SCREEN);
   };
 
   return service;

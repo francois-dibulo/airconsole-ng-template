@@ -102,14 +102,14 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
   };
 
   service.hasSelectedValue = function(key, device_id) {
-    var list = this.getList(device_id);
+    var list = this.getList(key, device_id);
     if (!list) {
       return false;
     }
     if (list.multiple) {
       return list.selected.length > 0;
     } else {
-      return list.selected;
+      return list.selected !== undefined;
     }
   };
 
