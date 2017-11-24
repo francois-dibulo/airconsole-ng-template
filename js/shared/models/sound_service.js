@@ -24,11 +24,20 @@ AirApp.services.factory('SoundService', [function () {
       soundManager.play(key, opts);
     },
 
+    stop: function(key) {
+      soundManager.stop(key);
+    },
+
     stopAll: function() {
       soundManager.stopAll();
     },
 
     /*
+     * Plays a list of soundtracks
+     * @param {Array} list - List of sound keys
+     * @param {Object} opts - { loop: <Boolean> }
+     * @param {Boolean} random - If to sort randomly
+     * Example:
       SoundService.play("end_game", {
         mute: true,
         onfinish: function() {
@@ -47,11 +56,20 @@ AirApp.services.factory('SoundService', [function () {
       var playTrack = function playTrack(id) {
         var play_opts = {};
         play_opts = angular.copy(opts, play_opts);
+
+        if (play_opts && !play_opts.loop) {
+          list.shift(id);
+        }
+
         play_opts.onfinish = function() {
           var next_id = list.pop();
-          list.unshift(next_id);
-          playTrack(next_id);
-        }
+          if (next_id) {
+            if (play_opts && play_opts.loop) {
+              list.unshift(next_id);
+            }
+            playTrack(next_id);
+          }
+        };
 
         self.play(id, play_opts);
       };

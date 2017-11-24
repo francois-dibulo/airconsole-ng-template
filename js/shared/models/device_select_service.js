@@ -1,7 +1,7 @@
-AirApp.services.factory('DeviceSelectService', ['$http', '$q', 'SelectService',
-    function ($http, $q, SelectService) {
+AirApp.services.factory('DeviceSelectService', ['SelectService',
+    function (SelectService) {
 
-  var service = angular.merge({}, SelectService);
+  var service = {};
   service.KEY = AC.List.Mode;
 
   service.list = [
@@ -11,8 +11,7 @@ AirApp.services.factory('DeviceSelectService', ['$http', '$q', 'SelectService',
   ];
 
   service.init = function() {
-    this.init_.apply(this);
-    this.addList(this.KEY, this.list , [0]);
+    SelectService.addList(this.KEY, this.list, 0, AirConsole.SCREEN);
   };
 
   return service;

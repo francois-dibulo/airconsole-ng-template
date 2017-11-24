@@ -15,15 +15,23 @@ AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundSer
     connect_code: null,
 
     updateCustomData: function(custom_data) {
-      this.airconsole.setCustomDeviceState(custom_data);
+      var data = this.getCustomData() || {};
+      for (var prop in custom_data) {
+        data[prop] = custom_data[prop];
+      }
+      this.airconsole.setCustomDeviceState(data);
     },
 
-    getScreenCustomData: function(prop) {
-      var custom_data = this.airconsole.getCustomDeviceState(AirConsole.SCREEN);
+    getCustomData: function(device_id, prop) {
+      var custom_data = this.airconsole.getCustomDeviceState(device_id);
       if (custom_data && prop !== undefined) {
         custom_data = custom_data[prop];
       }
       return custom_data;
+    },
+
+    getScreenCustomData: function(prop) {
+      return this.getCustomData(AirConsole.SCREEN, prop);
     },
 
     onReady: function() {},
@@ -78,6 +86,7 @@ AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundSer
           event_name: self.Event.DeviceStateChange,
           params: custom_data
         });
+        this.evaluateCustomData(device_id, custom_data);
       };
 
       airconsole.onDeviceProfileChange = function(device_id, data) {

@@ -1,21 +1,19 @@
 AirApp.controllers.controller('LobbyCtrl',
-  ['$scope', 'ViewService', 'AirConsoleService', 'DeviceSelectService',
-  function ($scope, ViewService, AirConsoleService, DeviceSelectService) {
+  ['$scope', 'ViewService', 'AirConsoleService', 'SelectService',
+  function ($scope, ViewService, AirConsoleService, SelectService) {
 
   var evts = {};
-
-  $scope.items = [];
 
   $scope.nextAction = function() {
     ViewService.ctrl.go(Shared.View.Ingame, true);
   };
 
   $scope.hasSelectedValue = function() {
-    return DeviceSelectService.hasSelectedValue(AC.List.Mode);
+    return SelectService.hasSelectedValue(AC.List.Mode, AirConsole.SCREEN);
   };
 
   $scope.init = function() {
-    $scope.items = DeviceSelectService.getList(AC.List.Mode).values;
+
   };
 
   $scope.$on("$destroy", function() {

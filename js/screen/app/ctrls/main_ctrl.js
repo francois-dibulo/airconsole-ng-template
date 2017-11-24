@@ -1,6 +1,6 @@
 AirApp.controllers.controller('MainCtrl',
-    ['$injector', '$scope', '$location', '$timeout', '$routeParams', 'AirConsoleService', 'SoundService', 'PlayerService', 'ViewService', 'DeviceSelectService',
-    function ($injector, $scope, $location, $timeout, $routeParams, AirConsoleService, SoundService, PlayerService, ViewService, DeviceSelectService) {
+    ['$scope', '$location', '$timeout', '$routeParams', 'AirConsoleService', 'SoundService', 'PlayerService', 'ViewService', 'SelectService', 'DeviceSelectService',
+    function ($scope, $location, $timeout, $routeParams, AirConsoleService, SoundService, PlayerService, ViewService, SelectService, DeviceSelectService) {
 
   $scope.custom_data = {
     is_developer: false,
@@ -39,13 +39,6 @@ AirApp.controllers.controller('MainCtrl',
     $scope.$apply();
   };
 
-  var bindEvents = function() {
-
-    // $scope.airconsole.on(AC.Action.SelectService, function(device_id, service) {
-    // });
-
-  };
-
   // =====================================================================================
 
   $scope.resetAll = function() {
@@ -57,7 +50,6 @@ AirApp.controllers.controller('MainCtrl',
 
     AirConsoleService.onReady = function() {
       $scope.airconsole = AirConsoleService.instance();
-      bindEvents();
       setDeveloperMode();
       setLowPerformanceState();
 
@@ -78,7 +70,7 @@ AirApp.controllers.controller('MainCtrl',
 
       PlayerService.init();
       SoundService.load(Screen.sounds);
-
+      SelectService.init_();
       DeviceSelectService.init();
 
       //

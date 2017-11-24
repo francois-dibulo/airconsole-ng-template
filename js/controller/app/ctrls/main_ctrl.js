@@ -1,6 +1,6 @@
 AirApp.controllers.controller('MainCtrl',
-    ['$scope', '$location', 'AirConsoleService', 'SoundService', 'ViewService', 'DeviceSelectService',
-    function ($scope, $location, AirConsoleService, SoundService, ViewService, DeviceSelectService) {
+    ['$scope', '$location', 'AirConsoleService', 'SoundService', 'ViewService', 'SelectService', 'DeviceSelectService',
+    function ($scope, $location, AirConsoleService, SoundService, ViewService, SelectService, DeviceSelectService) {
 
   $scope.airconsole = null;
   $scope.player = {
@@ -103,6 +103,7 @@ AirApp.controllers.controller('MainCtrl',
       };
       SoundService.load(Ctrl.sounds);
       //
+      SelectService.init_();
       DeviceSelectService.init();
       //
       registerEvents();

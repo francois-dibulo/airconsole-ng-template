@@ -3,6 +3,7 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
 
   var service = {
     KEY: "select_key",
+    CUSTOM_DEVICE_KEY: "select_service_key",
     Event: {
       OnValueChanged: "select.value_changed"
     },
@@ -10,13 +11,22 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
     lists: {}
   };
 
+  service.updateCustomData = function() {
+    this.airconsole.setCustomDeviceStateProperty(this.CUSTOM_DEVICE_KEY, this.lists);
+  };
+
   /**
    * @param {String} key - List key
    * @param {Array} values - List of values
    * @param {Mixed} single_value - Default selected value (E.g. 0 or [0])
    */
-  service.addList = function(key, values, single_value) {
-    var device_id = this.airconsole.getDeviceId();
+  service.addList = function(key, values, single_value, target_device_id) {
+    var device_id = null;
+    if (target_device_id === true) {
+      device_id = this.getDeviceId();
+    } else {
+      device_id = this.getDeviceId(target_device_id);
+    }
     var is_multiple = single_value === undefined || angular.isArray(single_value);
     if (is_multiple) {
       single_value = single_value || [];
@@ -27,26 +37,46 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
       values: values,
       selected: single_value,
       multiple: is_multiple,
-      default_value: single_value
+      default_value: single_value,
+      target_device_id: target_device_id
     };
-    this.lists[device_id][key] = obj;
-  };
 
-  service.getList = function(key) {
-    key = key || this.KEY;
-    var device_id = this.airconsole.getDeviceId();
-    if (this.lists[device_id] && this.lists[device_id][key] && device_id !== undefined) {
-      return this.lists[device_id][key];
+    if (!this.lists[device_id]) {
+      this.lists[device_id] = {};
+    }
+    this.lists[device_id][key] = obj;
+
+    // If only one device should have this list
+    if (target_device_id !== undefined && target_device_id === device_id) {
+      this.updateCustomData();
     }
   };
 
-  service.isSelectedValue = function(key, value) {
-    var device_id = this.airconsole.getDeviceId();
-    var device_lists = this.lists[device_id];
-    if (!device_lists) {
+  /**
+   * Returns a list from a device
+   * @param {String} key - The list key
+   * @param {Number} device_id
+   */
+  service.getList = function(key, device_id) {
+    var list = null;
+    device_id = this.getDeviceId(device_id);
+    var lists = AirConsoleService.getCustomData(device_id, this.CUSTOM_DEVICE_KEY);
+    if (lists) {
+      list = lists[device_id][key];
+    }
+    return list;
+  };
+
+  service.getDeviceId = function (device_id) {
+    return device_id !== undefined ? device_id : this.airconsole.getDeviceId();
+  };
+
+  service.isSelectedValue = function(key, value, device_id) {
+    var device_list = this.getList(key, device_id);
+    if (!device_list) {
       return false;
     }
-    var selected = device_lists[key].selected;
+    var selected = device_list.selected;
     if (angular.isArray(selected)) {
       return selected.indexOf(value) > -1;
     } else {
@@ -54,34 +84,11 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
     }
   };
 
-  service.hasSelectedValue = function(key) {
-    var device_id = this.airconsole.getDeviceId();
-    var device_lists = this.lists[device_id];
-    if (!device_lists) {
-      return false;
-    }
-    var list = device_lists[key];
-    if (list.multiple) {
-      return list.selected.length > 0;
-    } else {
-      return list.selected;
-    }
-  };
-
-  service.resetSelection = function(key) {
-    var list = this.getList(key);
-    if (list) {
-      list.selected = list.multiple ? [] : list.default_value;
-    }
-  }
-
   service.getSelectedValues = function(key, device_id) {
-    device_id = device_id || this.airconsole.getDeviceId();
-    var device_lists = this.lists[device_id];
-    if (!device_lists) {
+    var list = this.getList(key, device_id);
+    if (!list) {
       return null;
     }
-    var list = device_lists[key];
     if (!list.multiple) {
       return list.values[list.selected];
     } else {
@@ -94,48 +101,84 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
     }
   };
 
-  service.onSelectionChanged = function(from_device_id, data) {
-    var device_id = this.airconsole.getDeviceId();
-    var key = data.key;
-    var selected = data.selected;
-    this.lists[device_id][key].selected = selected;
-  };
-
-  service.selectScreenItem = function(key, value) {
-    this.selectItem(key, value, AirConsole.SCREEN);
+  service.hasSelectedValue = function(key, device_id) {
+    var list = this.getList(device_id);
+    if (!list) {
+      return false;
+    }
+    if (list.multiple) {
+      return list.selected.length > 0;
+    } else {
+      return list.selected;
+    }
   };
 
   service.selectItem = function(key, value, target_device_id) {
     var device_id = this.airconsole.getDeviceId();
-    var select_item = this.lists[device_id][key];
-    if (angular.isArray(select_item.selected)) {
-      var value_index = select_item.selected.indexOf(value);
-      if (value_index === -1) {
-        select_item.selected.push(value);
-      } else {
-        select_item.selected.splice(value_index, 1);
-      }
-    } else {
-      select_item.selected = value;
-    }
-    // UPDATE
-    if (target_device_id !== undefined) {
+    target_device_id = target_device_id !== undefined ? target_device_id : device_id;
+    var list = this.getList(key, target_device_id);
+
+    // Change a list of another device
+    if (target_device_id !== device_id) {
+
       this.airconsole.sendEvent(target_device_id, this.Event.OnValueChanged, {
         key: key,
-        selected: select_item.selected
+        selected: value
       });
+
+    // Changed own list and broadcast
+    } else {
+
+      // Update selected value
+      if (angular.isArray(list.selected)) {
+        var value_index = list.selected.indexOf(value);
+        if (value_index === -1) {
+          list.selected.push(value);
+        } else {
+          list.selected.splice(value_index, 1);
+        }
+      } else {
+        list.selected = value;
+      }
+
+      this.updateCustomData();
     }
+
+  };
+
+  service.syncDeviceList = function(device_id, complete_lists) {
+    this.lists[device_id] = complete_lists;
+  };
+
+  // Another device changes a list on this device
+  service.onSelectionChanged = function(data) {
+    var device_id = this.airconsole.getDeviceId();
+    var key = data.key;
+    var value = data.selected;
+    var list = this.getList(key, device_id);
+
+    if (angular.isArray(list.selected)) {
+      var value_index = list.selected.indexOf(value);
+      if (value_index === -1) {
+        list.selected.push(value);
+      } else {
+        list.selected.splice(value_index, 1);
+      }
+    } else {
+      list.selected = value;
+    }
+
+    this.updateCustomData();
   };
 
   service.init_ = function() {
-    var is_screen = AirConsoleService.isScreen();
     this.airconsole = AirConsoleService.instance();
 
     var device_id = this.airconsole.getDeviceId();
     this.lists[device_id] = {};
 
     this.airconsole.on(this.Event.OnValueChanged, function(device_id, data) {
-      this.onSelectionChanged.call(this, device_id, data);
+      this.onSelectionChanged.call(this, data);
     }.bind(this));
   };
 
