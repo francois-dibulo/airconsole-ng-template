@@ -18,8 +18,12 @@ AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundSer
       this.airconsole.setCustomDeviceState(custom_data);
     },
 
-    getScreenCustomData: function() {
-      return this.airconsole.getCustomDeviceState(AirConsole.SCREEN);
+    getScreenCustomData: function(prop) {
+      var custom_data = this.airconsole.getCustomDeviceState(AirConsole.SCREEN);
+      if (custom_data && prop !== undefined) {
+        custom_data = custom_data[prop];
+      }
+      return custom_data;
     },
 
     onReady: function() {},
