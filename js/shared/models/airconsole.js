@@ -14,6 +14,10 @@ AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundSer
     },
     connect_code: null,
 
+    // ===================================================================================
+    // CUSTOM DEVICE STATES
+    // ===================================================================================
+
     updateCustomData: function(custom_data) {
       var data = this.getCustomData() || {};
       for (var prop in custom_data) {
@@ -34,11 +38,9 @@ AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundSer
       return this.getCustomData(AirConsole.SCREEN, prop);
     },
 
-    onReady: function() {},
-
-    instance: function() {
-      return this.airconsole;
-    },
+    // ===================================================================================
+    // ADS
+    // ===================================================================================
 
     showAd: function() {
       this.airconsole.showAd();
@@ -46,6 +48,16 @@ AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundSer
 
     onAdShow: function() {
       SoundService.stopAll();
+    },
+
+    // ===================================================================================
+    // SETUP AND INSTANCE
+    // ===================================================================================
+
+    onReady: function() {},
+
+    instance: function() {
+      return this.airconsole;
     },
 
     createInstance: function(opts) {
@@ -129,6 +141,10 @@ AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundSer
       this.airconsole = airconsole;
     },
 
+    // ===================================================================================
+    // EVENTS
+    // ===================================================================================
+
     on: function(evt, fn) {
       return this.airconsole.on(evt, fn);
     },
@@ -136,6 +152,10 @@ AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundSer
     off: function(event_id) {
       this.airconsole.off(event_id);
     },
+
+    // ===================================================================================
+    // HELPER FUNCTIONS
+    // ===================================================================================
 
     isMasterPlayer: function(device_id) {
       device_id = device_id || this.airconsole.getDeviceId();
