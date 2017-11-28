@@ -14,14 +14,6 @@ AirApp.controllers.controller('MainCtrl',
     game: {}
   };
 
-  var isDeveloperMode = function() {
-    var screen_data = $scope.airconsole.devices[AirConsole.SCREEN];
-    if (screen_data) {
-      var url = screen_data.url;
-      return url.indexOf('10.0.1') > -1 || url.indexOf('192.168') > -1;
-    }
-  };
-
   var evaluateMaster = function(device_id) {
     $scope.player.is_master = AirConsoleService.isMasterPlayer();
     $scope.update();
@@ -29,7 +21,7 @@ AirApp.controllers.controller('MainCtrl',
 
   var preparePlayer = function() {
     var ac = $scope.airconsole;
-    var is_dev = isDeveloperMode();
+    var is_dev = AirConsoleService.isDeveloperMode();
     var device_id = ac.getDeviceId();
     var data = AirConsoleService.getDeviceData(device_id);
     $scope.player.uid = data.uid;

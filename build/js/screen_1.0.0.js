@@ -786,6 +786,10 @@ AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundSer
     },
     connect_code: null,
 
+    // ===================================================================================
+    // CUSTOM DEVICE STATES
+    // ===================================================================================
+
     updateCustomData: function(custom_data) {
       var data = this.getCustomData() || {};
       for (var prop in custom_data) {
@@ -806,11 +810,9 @@ AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundSer
       return this.getCustomData(AirConsole.SCREEN, prop);
     },
 
-    onReady: function() {},
-
-    instance: function() {
-      return this.airconsole;
-    },
+    // ===================================================================================
+    // ADS
+    // ===================================================================================
 
     showAd: function() {
       this.airconsole.showAd();
@@ -818,6 +820,16 @@ AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundSer
 
     onAdShow: function() {
       SoundService.stopAll();
+    },
+
+    // ===================================================================================
+    // SETUP AND INSTANCE
+    // ===================================================================================
+
+    onReady: function() {},
+
+    instance: function() {
+      return this.airconsole;
     },
 
     createInstance: function(opts) {
@@ -901,6 +913,10 @@ AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundSer
       this.airconsole = airconsole;
     },
 
+    // ===================================================================================
+    // EVENTS
+    // ===================================================================================
+
     on: function(evt, fn) {
       return this.airconsole.on(evt, fn);
     },
@@ -908,6 +924,10 @@ AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundSer
     off: function(event_id) {
       this.airconsole.off(event_id);
     },
+
+    // ===================================================================================
+    // HELPER FUNCTIONS
+    // ===================================================================================
 
     isMasterPlayer: function(device_id) {
       device_id = device_id || this.airconsole.getDeviceId();
@@ -949,6 +969,14 @@ AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundSer
       var code = this.connect_code;
       code = code.replace(/\s/gi, "");
       return "https://www.airconsole.com/#!code=" + code;
+    },
+
+    isDeveloperMode: function() {
+      var screen_data = this.airconsole.devices[AirConsole.SCREEN];
+      if (screen_data) {
+        var url = screen_data.url;
+        return url.indexOf('10.0.1') > -1 || url.indexOf('192.168') > -1;
+      }
     }
 
   };
@@ -1740,7 +1768,7 @@ AirApp.controllers.controller('MainCtrl',
   // =====================================================================================
 
   var setDeveloperMode = function() {
-    var state = $scope.airconsole.devices[0].url.indexOf('10.0.1') > -1;
+    var state = AirConsoleService.isDeveloperMode();
     $scope.custom_data.is_developer = state;
   };
 

@@ -197,6 +197,14 @@ AirApp.services.factory('AirConsoleService', ['SoundService', function (SoundSer
       var code = this.connect_code;
       code = code.replace(/\s/gi, "");
       return "https://www.airconsole.com/#!code=" + code;
+    },
+
+    isDeveloperMode: function() {
+      var screen_data = this.airconsole.devices[AirConsole.SCREEN];
+      if (screen_data) {
+        var url = screen_data.url;
+        return url.indexOf('10.0.1') > -1 || url.indexOf('192.168') > -1;
+      }
     }
 
   };

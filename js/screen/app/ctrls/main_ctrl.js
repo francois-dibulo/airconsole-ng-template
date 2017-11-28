@@ -12,7 +12,7 @@ AirApp.controllers.controller('MainCtrl',
   // =====================================================================================
 
   var setDeveloperMode = function() {
-    var state = $scope.airconsole.devices[0].url.indexOf('10.0.1') > -1;
+    var state = AirConsoleService.isDeveloperMode();
     $scope.custom_data.is_developer = state;
   };
 
