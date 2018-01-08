@@ -3,6 +3,7 @@ AirApp.controllers.controller('SplashCtrl',
   function ($scope, $timeout, ViewService, AirConsoleService) {
 
   var evts = {};
+  var splash_timeout = null;
 
   $scope.init = function() {
     $timeout(function() {
@@ -11,6 +12,7 @@ AirApp.controllers.controller('SplashCtrl',
   };
 
   $scope.$on("$destroy", function() {
+    $timeout.cancel(splash_timeout);
     for (var id in evts) {
       $scope.airconsole.off(evts[id]);
     }

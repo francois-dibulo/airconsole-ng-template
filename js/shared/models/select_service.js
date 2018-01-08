@@ -1,6 +1,7 @@
 AirApp.services.factory('SelectService', ['AirConsoleService',
     function (AirConsoleService) {
 
+  var evts = {};
   var service = {
     KEY: "select_key",
     CUSTOM_DEVICE_KEY: "select_service_key",
@@ -15,12 +16,22 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
     this.airconsole.setCustomDeviceStateProperty(this.CUSTOM_DEVICE_KEY, this.lists);
   };
 
+  service.setList = function(device_id, key, list) {
+    if (!this.lists[device_id]) {
+      this.lists[device_id] = {};
+    }
+    this.lists[device_id][key] = list;
+  };
+
   /**
    * @param {String} key - List key
    * @param {Array} values - List of values
    * @param {Mixed} single_value - Default selected value (E.g. 0 or [0])
+   * @param {Number|True} target_device_id - If only one device holds the list (E.g. the screen)
+   *                                         True if THIS device should hold it.
    */
   service.addList = function(key, values, single_value, target_device_id) {
+    var my_device_id = this.getDeviceId();
     var device_id = null;
     if (target_device_id === true) {
       device_id = this.getDeviceId();
@@ -41,13 +52,10 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
       target_device_id: target_device_id
     };
 
-    if (!this.lists[device_id]) {
-      this.lists[device_id] = {};
-    }
-    this.lists[device_id][key] = obj;
+    this.setList(device_id, key, obj);
 
     // If only one device should have this list
-    if (target_device_id !== undefined && target_device_id === device_id) {
+    if (target_device_id !== undefined && my_device_id === target_device_id) {
       this.updateCustomData();
     }
   };
@@ -120,7 +128,6 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
 
     // Change a list of another device
     if (target_device_id !== device_id) {
-
       this.airconsole.sendEvent(target_device_id, this.Event.OnValueChanged, {
         key: key,
         selected: value
@@ -171,15 +178,29 @@ AirApp.services.factory('SelectService', ['AirConsoleService',
     this.updateCustomData();
   };
 
+  service.bindEvents = function() {
+    if (this.airconsole &&
+       (AirConsoleService.isScreen() || AirConsoleService.isMasterPlayer())) {
+      evts.on_value_changed = this.airconsole.on(this.Event.OnValueChanged,
+        function(device_id, data) {
+          this.onSelectionChanged.call(this, data);
+      }.bind(this));
+    }
+  };
+
+  service.unbindEvents = function() {
+    for (var key in evts) {
+      this.airconsole.off(evts[key]);
+    }
+  };
+
   service.init_ = function() {
     this.airconsole = AirConsoleService.instance();
 
     var device_id = this.airconsole.getDeviceId();
     this.lists[device_id] = {};
 
-    this.airconsole.on(this.Event.OnValueChanged, function(device_id, data) {
-      this.onSelectionChanged.call(this, data);
-    }.bind(this));
+    this.bindEvents();
   };
 
   return service;
