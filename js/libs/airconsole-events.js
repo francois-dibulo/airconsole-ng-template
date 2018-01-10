@@ -74,12 +74,20 @@
    * @params {Number} to - The device id to send the event
    * @params {String} event_name - The name of the event
    * @params {mixed} params - (Optional) params to pass to the callback method
+   * @params {Array} only_device_ids - (Optional) list of device ids you want to send evt
    */
-  AirConsole.prototype.broadcastEvent = function(event_name, params) {
-    this.broadcast({
-      event_name: event_name,
-      params: params
-    });
+  AirConsole.prototype.broadcastEvent = function(event_name, params, only_device_ids) {
+    if (!only_device_ids) {
+      this.broadcast({
+        event_name: event_name,
+        params: params
+      });
+    } else {
+      for (var i = 0; i < only_device_ids.length; i++) {
+        var device_id = only_device_ids[i];
+        this.sendEvent(device_id, event_name, params);
+      }
+    }
   };
 
   /**
