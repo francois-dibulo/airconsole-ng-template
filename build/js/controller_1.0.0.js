@@ -1770,7 +1770,7 @@ AirApp.controllers.controller('MainCtrl',
     img: null,
     is_master: false,
     is_premium: false,
-    game: {}
+    data: {}
   };
 
   var evaluateMaster = function(device_id) {
@@ -1811,16 +1811,12 @@ AirApp.controllers.controller('MainCtrl',
     });
 
     $scope.airconsole.on(AirConsoleService.Event.DeviceStateChange, function(device_id, data) {
-      if (device_id === AirConsole.SCREEN && data.player_map_key) {
-        var map = data.player_map_key;
-        var device_data = map[$scope.player.device_id];
-        if (device_data) {
-          // Update players score
-          var score = device_data.stats.score;
-          if ($scope.player.game.score !== score) {
-            $scope.player.game.score = score;
-            $scope.update();
-          }
+      var players_data = data["ps.player_map_key"];
+      if (device_id === AirConsole.SCREEN && players_data) {
+        var player_data = players_data[$scope.player.device_id];
+        if (player_data) {
+          $scope.player.data = player_data;
+          $scope.update();
         }
       }
     });
