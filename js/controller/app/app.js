@@ -14,17 +14,16 @@ AirApp.app.config(['$routeProvider',
         templateUrl: VIEW_PATH + 'lobby_view.html',
         controller: 'LobbyCtrl'
       }).
+      when('/loading', {
+        templateUrl: VIEW_PATH + 'game/loading_view.html',
+      }).
       when('/game', {
         templateUrl: VIEW_PATH + 'game/game_view.html',
         controller: 'GameCtrl'
       }).
-      when('/game_end_win', {
-        templateUrl: VIEW_PATH + 'game/game_end_win_view.html',
-        controller: "GameEndCtrl"
-      }).
-      when('/game_end_lose', {
-        templateUrl: VIEW_PATH + 'game/game_end_lose_view.html',
-        controller: "GameEndCtrl"
+      when('/end', {
+        templateUrl: VIEW_PATH + 'end_view.html',
+        controller: 'GameEndCtrl'
       }).
       otherwise({
         redirectTo: '/'

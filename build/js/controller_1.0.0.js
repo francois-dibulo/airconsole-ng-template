@@ -662,8 +662,7 @@ var Ctrl = {
   sounds: {
   },
   View: {
-    GameEndWin: 'game_end_win',
-    GameEndLose: 'game_end_lose'
+    Loading: 'loading'
   }
 };
 
@@ -671,7 +670,7 @@ var Shared = {
   View: {
     Lobby: "lobby",
     Ingame: "game",
-    GameEnd: "game_end"
+    GameEnd: "end"
   }
 };
 
@@ -693,6 +692,7 @@ AC.Action = {
 };
 
 AC.Event = {
+  GameStart: "on_game_start"
 };
 
 
@@ -756,17 +756,16 @@ AirApp.app.config(['$routeProvider',
         templateUrl: VIEW_PATH + 'lobby_view.html',
         controller: 'LobbyCtrl'
       }).
+      when('/loading', {
+        templateUrl: VIEW_PATH + 'game/loading_view.html',
+      }).
       when('/game', {
         templateUrl: VIEW_PATH + 'game/game_view.html',
         controller: 'GameCtrl'
       }).
-      when('/game_end_win', {
-        templateUrl: VIEW_PATH + 'game/game_end_win_view.html',
-        controller: "GameEndCtrl"
-      }).
-      when('/game_end_lose', {
-        templateUrl: VIEW_PATH + 'game/game_end_lose_view.html',
-        controller: "GameEndCtrl"
+      when('/end', {
+        templateUrl: VIEW_PATH + 'end_view.html',
+        controller: 'GameEndCtrl'
       }).
       otherwise({
         redirectTo: '/'
@@ -1747,7 +1746,7 @@ AirApp.controllers.controller('LobbyCtrl',
   var evts = {};
 
   $scope.nextAction = function() {
-    ViewService.ctrl.go(Shared.View.Ingame, true);
+    $scope.airconsole.sendEvent(AirConsole.SCREEN, AC.Event.GameStart);
   };
 
   $scope.hasSelectedValue = function() {

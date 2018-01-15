@@ -662,8 +662,7 @@ var Ctrl = {
   sounds: {
   },
   View: {
-    GameEndWin: 'game_end_win',
-    GameEndLose: 'game_end_lose'
+    Loading: 'loading'
   }
 };
 
@@ -671,7 +670,7 @@ var Shared = {
   View: {
     Lobby: "lobby",
     Ingame: "game",
-    GameEnd: "game_end"
+    GameEnd: "end"
   }
 };
 
@@ -693,6 +692,7 @@ AC.Action = {
 };
 
 AC.Event = {
+  GameStart: "on_game_start"
 };
 
 
@@ -750,7 +750,7 @@ AirApp.app.config(['$routeProvider',
         templateUrl: VIEW_PATH + 'splash_view.html'
       }).
       when('/lobby', {
-        templateUrl: VIEW_PATH + '_lobby_view.html',
+        templateUrl: VIEW_PATH + 'lobby_view.html',
         controller: 'LobbyCtrl'
       }).
       when('/game', {
@@ -758,7 +758,7 @@ AirApp.app.config(['$routeProvider',
         controller: 'GameCtrl'
       }).
       when('/end', {
-        templateUrl: VIEW_PATH + '_end_view.html',
+        templateUrl: VIEW_PATH + 'end_view.html',
         controller: 'GameEndCtrl'
       }).
       otherwise({
@@ -1697,12 +1697,16 @@ function parseQuery(qstr) {
   return query;
 }
 AirApp.controllers.controller('GameCtrl',
-  ['$scope', 'AirConsoleService',
-  function ($scope, AirConsoleService) {
+  ['$scope', 'AirConsoleService', 'ViewService', '$timeout',
+  function ($scope, AirConsoleService, ViewService, $timeout) {
 
   $scope.init = function() {
     $scope.custom_data.current_state = AC.State.Ingame;
     $scope.updateCustomData();
+
+    $timeout(function() {
+      ViewService.screen.ctrlsGo(Shared.View.Ingame);
+    }, 3000);
   };
 
 }]);
@@ -1726,8 +1730,8 @@ AirApp.controllers.controller('GameEndCtrl',
 }]);
 
 AirApp.controllers.controller('LobbyCtrl',
-  ['$injector', '$scope', 'SoundService', 'PlayerService', 'AirConsoleService', 'SelectService',
-  function ($injector, $scope, SoundService, PlayerService, AirConsoleService, SelectService) {
+  ['ViewService', '$scope', 'SoundService', 'PlayerService', 'AirConsoleService', 'SelectService',
+  function (ViewService, $scope, SoundService, PlayerService, AirConsoleService, SelectService) {
 
   $scope.items = [];
 
@@ -1739,6 +1743,12 @@ AirApp.controllers.controller('LobbyCtrl',
     $scope.items = SelectService.getList(AC.List.Mode).values;
 
     $scope.airconsole.on(SelectService.Event.OnValueChanged, function(device_id, index) {
+      $scope.update();
+    });
+
+    $scope.airconsole.on(AC.Event.GameStart, function(device_id) {
+      ViewService.screen.ctrlsGo(Ctrl.View.Loading);
+      ViewService.screen.go(Shared.View.Ingame);
       $scope.update();
     });
   };

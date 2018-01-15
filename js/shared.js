@@ -10,8 +10,7 @@ var Ctrl = {
   sounds: {
   },
   View: {
-    GameEndWin: 'game_end_win',
-    GameEndLose: 'game_end_lose'
+    Loading: 'loading'
   }
 };
 
@@ -19,7 +18,7 @@ var Shared = {
   View: {
     Lobby: "lobby",
     Ingame: "game",
-    GameEnd: "game_end"
+    GameEnd: "end"
   }
 };
 
@@ -41,6 +40,7 @@ AC.Action = {
 };
 
 AC.Event = {
+  GameStart: "on_game_start"
 };
 
 

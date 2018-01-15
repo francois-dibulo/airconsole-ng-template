@@ -1,6 +1,6 @@
 AirApp.controllers.controller('LobbyCtrl',
-  ['$injector', '$scope', 'SoundService', 'PlayerService', 'AirConsoleService', 'SelectService',
-  function ($injector, $scope, SoundService, PlayerService, AirConsoleService, SelectService) {
+  ['ViewService', '$scope', 'SoundService', 'PlayerService', 'AirConsoleService', 'SelectService',
+  function (ViewService, $scope, SoundService, PlayerService, AirConsoleService, SelectService) {
 
   $scope.items = [];
 
@@ -12,6 +12,12 @@ AirApp.controllers.controller('LobbyCtrl',
     $scope.items = SelectService.getList(AC.List.Mode).values;
 
     $scope.airconsole.on(SelectService.Event.OnValueChanged, function(device_id, index) {
+      $scope.update();
+    });
+
+    $scope.airconsole.on(AC.Event.GameStart, function(device_id) {
+      ViewService.screen.ctrlsGo(Ctrl.View.Loading);
+      ViewService.screen.go(Shared.View.Ingame);
       $scope.update();
     });
   };

@@ -8,7 +8,7 @@ AirApp.app.config(['$routeProvider',
         templateUrl: VIEW_PATH + 'splash_view.html'
       }).
       when('/lobby', {
-        templateUrl: VIEW_PATH + '_lobby_view.html',
+        templateUrl: VIEW_PATH + 'lobby_view.html',
         controller: 'LobbyCtrl'
       }).
       when('/game', {
@@ -16,7 +16,7 @@ AirApp.app.config(['$routeProvider',
         controller: 'GameCtrl'
       }).
       when('/end', {
-        templateUrl: VIEW_PATH + '_end_view.html',
+        templateUrl: VIEW_PATH + 'end_view.html',
         controller: 'GameEndCtrl'
       }).
       otherwise({

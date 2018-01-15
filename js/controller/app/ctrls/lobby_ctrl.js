@@ -5,7 +5,7 @@ AirApp.controllers.controller('LobbyCtrl',
   var evts = {};
 
   $scope.nextAction = function() {
-    ViewService.ctrl.go(Shared.View.Ingame, true);
+    $scope.airconsole.sendEvent(AirConsole.SCREEN, AC.Event.GameStart);
   };
 
   $scope.hasSelectedValue = function() {
