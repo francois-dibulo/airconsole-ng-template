@@ -4,16 +4,18 @@ AirApp.services.factory('SoundService', [function () {
 
   return {
 
+    sounds_map: {},
+    sound_ids: {},
+
     load: function(sounds) {
-      soundManager.setup({
-        debugMode: false,
-        onready: function() {
-          for (var key in sounds) {
-            var sound_file = sounds[key];
-            soundManager.createSound({url: BASE_URL + sound_file, id: key});
-          }
-        }
-      });
+      this.sounds_map = sounds;
+      for (var key in sounds) {
+        var path = BASE_URL + sounds[key];
+        this.sounds_map[key] = path;
+        new Howl({
+          src: [path]
+        });
+      }
     },
 
     play: function(key, opts) {
@@ -21,15 +23,39 @@ AirApp.services.factory('SoundService', [function () {
       if (opts.mute) {
         this.stopAll();
       }
-      soundManager.play(key, opts);
+
+      if (this.sounds_map[key]) {
+        var sound_opts = {
+          autoplay: true,
+          src: [this.sounds_map[key]]
+        };
+
+        if (opts.loop) {
+          sound_opts.loop = true;
+        }
+
+        var sound = new Howl(sound_opts);
+        // Play returns a unique Sound ID that can be passed
+        // into any method on Howl to control that specific sound.
+        this.sound_ids[key] = sound;
+        sound.play();
+
+        return sound;
+      }
     },
 
     stop: function(key) {
-      soundManager.stop(key);
+      var sound = this.sound_ids[key];
+      if (sound) {
+        sound.stop();
+        delete this.sound_ids[key];
+      }
     },
 
     stopAll: function() {
-      soundManager.stopAll();
+      for (var key in this.sound_ids) {
+        this.stop(key);
+      }
     },
 
     /*
@@ -61,7 +87,9 @@ AirApp.services.factory('SoundService', [function () {
           list.shift(id);
         }
 
-        play_opts.onfinish = function() {
+        var sound = self.play(id);
+
+        var onfinish = function() {
           var next_id = list.pop();
           if (next_id) {
             if (play_opts && play_opts.loop) {
@@ -71,7 +99,9 @@ AirApp.services.factory('SoundService', [function () {
           }
         };
 
-        self.play(id, play_opts);
+        sound.once('end', function() {
+          onfinish();
+        });
       };
 
       playTrack(list[0]);
